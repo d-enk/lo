@@ -250,3 +250,14 @@ func BenchmarkItCountBy(b *testing.B) {
 		})
 	}
 }
+
+func BenchmarkItFind(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			for range b.N {
+				_, _ = it.Find(ints, func(x int) bool { return x == 0 })
+			}
+		})
+	}
+}

@@ -239,3 +239,50 @@ func BenchmarkItTrimSuffix(b *testing.B) {
 		})
 	}
 }
+
+func BenchmarkItContainsBy(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			target := rand.IntN(100_000)
+			for range b.N {
+				_ = it.ContainsBy(ints, func(x int) bool { return x == target })
+			}
+		})
+	}
+}
+
+func BenchmarkItEveryBy(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			for range b.N {
+				_ = it.EveryBy(ints, func(x int) bool { return x >= 0 })
+			}
+		})
+	}
+}
+
+func BenchmarkItSomeBy(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			target := rand.IntN(100_000)
+			for range b.N {
+				_ = it.SomeBy(ints, func(x int) bool { return x == target })
+			}
+		})
+	}
+}
+
+func BenchmarkItNoneBy(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			target := rand.IntN(100_000)
+			for range b.N {
+				_ = it.NoneBy(ints, func(x int) bool { return x == target })
+			}
+		})
+	}
+}

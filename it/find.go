@@ -102,7 +102,13 @@ func HasSuffix[T comparable](collection iter.Seq[T], suffix ...T) bool {
 // Will iterate through the entire sequence if predicate never returns true.
 // Play: https://go.dev/play/p/5SdLM6jf-q
 func Find[T any](collection iter.Seq[T], predicate func(item T) bool) (T, bool) {
-	return First(Filter(collection, predicate))
+	for item := range collection {
+		if predicate(item) {
+			return item, true
+		}
+	}
+
+	return lo.Empty[T](), false
 }
 
 // FindIndexOf searches for an element in a sequence based on a predicate and returns the index and true.

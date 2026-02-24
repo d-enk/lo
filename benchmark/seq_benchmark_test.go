@@ -240,6 +240,28 @@ func BenchmarkItTrimSuffix(b *testing.B) {
 	}
 }
 
+func BenchmarkItCountBy(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			for range b.N {
+				_ = it.CountBy(ints, func(x int) bool { return x%2 == 0 })
+			}
+		})
+	}
+}
+
+func BenchmarkItFind(b *testing.B) {
+	for _, n := range itLengths {
+		ints := genInts(n)
+		b.Run(fmt.Sprintf("ints_%d", n), func(b *testing.B) {
+			for range b.N {
+				_, _ = it.Find(ints, func(x int) bool { return x == 0 })
+			}
+		})
+	}
+}
+
 func BenchmarkItContainsBy(b *testing.B) {
 	for _, n := range itLengths {
 		ints := genInts(n)

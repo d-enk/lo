@@ -315,10 +315,6 @@ func (th *throttleBy[T]) throttledFunc(key T) {
 	th.mu.Lock()
 	defer th.mu.Unlock()
 
-	if _, ok := th.count[key]; !ok {
-		th.count[key] = 0
-	}
-
 	if th.count[key] < th.countLimit {
 		th.count[key]++
 

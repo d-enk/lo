@@ -830,8 +830,10 @@ func Count[T comparable](collection iter.Seq[T], value T) int {
 func CountBy[T any](collection iter.Seq[T], predicate func(item T) bool) int {
 	var count int
 
-	for range Filter(collection, predicate) {
-		count++
+	for item := range collection {
+		if predicate(item) {
+			count++
+		}
 	}
 
 	return count

@@ -473,8 +473,14 @@ func Shuffle[T any, I ~func(func(T) bool)](collection I) I {
 // Play: https://go.dev/play/p/9jthUzgF-u
 func Reverse[T any, I ~func(func(T) bool)](collection I) I {
 	slice := slices.Collect(iter.Seq[T](collection))
-	mutable.Reverse(slice)
-	return I(slices.Values(slice))
+
+	return I(func(yield func(T) bool) {
+		for i := len(slice) - 1; i >= 0; i-- {
+			if !yield(slice[i]) {
+				return
+			}
+		}
+	})
 }
 
 // Fill replaces elements of a sequence with `initial` value.

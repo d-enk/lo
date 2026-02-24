@@ -1,7 +1,6 @@
 package lo
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/samber/lo/internal/constraints"
@@ -641,17 +640,22 @@ func LastOr[T any](collection []T, fallback T) T {
 // from the end is returned. An error is returned when nth is out of slice bounds.
 // Play: https://go.dev/play/p/sHoh88KWt6B
 func Nth[T any, N constraints.Integer](collection []T, nth N) (T, error) {
+	value, ok := sliceNth(collection, nth)
+
+	return value, Validate(ok, "nth: %d out of slice bounds", nth)
+}
+
+func sliceNth[T any, N constraints.Integer](collection []T, nth N) (T, bool) {
 	n := int(nth)
 	l := len(collection)
 	if n >= l || -n > l {
-		var t T
-		return t, fmt.Errorf("nth: %d out of slice bounds", n)
+		return Empty[T](), false
 	}
 
 	if n >= 0 {
-		return collection[n], nil
+		return collection[n], true
 	}
-	return collection[l+n], nil
+	return collection[l+n], true
 }
 
 // NthOr returns the element at index `nth` of collection.
@@ -659,8 +663,8 @@ func Nth[T any, N constraints.Integer](collection []T, nth N) (T, error) {
 // If `nth` is out of slice bounds, it returns the fallback value instead of an error.
 // Play: https://go.dev/play/p/sHoh88KWt6B
 func NthOr[T any, N constraints.Integer](collection []T, nth N, fallback T) T {
-	value, err := Nth(collection, nth)
-	if err != nil {
+	value, ok := sliceNth(collection, nth)
+	if !ok {
 		return fallback
 	}
 	return value
@@ -671,7 +675,7 @@ func NthOr[T any, N constraints.Integer](collection []T, nth N, fallback T) T {
 // If `nth` is out of slice bounds, it returns the zero value (empty value) for that type.
 // Play: https://go.dev/play/p/sHoh88KWt6B
 func NthOrEmpty[T any, N constraints.Integer](collection []T, nth N) T {
-	value, _ := Nth(collection, nth)
+	value, _ := sliceNth(collection, nth)
 	return value
 }
 

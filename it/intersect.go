@@ -18,7 +18,13 @@ func Contains[T comparable](collection iter.Seq[T], element T) bool {
 // ContainsBy returns true if predicate function return true.
 // Will iterate through the entire sequence if predicate never returns true.
 func ContainsBy[T any](collection iter.Seq[T], predicate func(item T) bool) bool {
-	return IsNotEmpty(Filter(collection, predicate))
+	for item := range collection {
+		if predicate(item) {
+			return true
+		}
+	}
+
+	return false
 }
 
 // Every returns true if all elements of a subset are contained in a collection or if the subset is empty.
@@ -45,7 +51,13 @@ func Every[T comparable](collection iter.Seq[T], subset ...T) bool {
 // EveryBy returns true if the predicate returns true for all elements in the collection or if the collection is empty.
 // Will iterate through the entire sequence if predicate never returns false.
 func EveryBy[T any](collection iter.Seq[T], predicate func(item T) bool) bool {
-	return IsEmpty(Reject(collection, predicate))
+	for item := range collection {
+		if !predicate(item) {
+			return false
+		}
+	}
+
+	return true
 }
 
 // Some returns true if at least 1 element of a subset is contained in a collection.
@@ -68,7 +80,13 @@ func Some[T comparable](collection iter.Seq[T], subset ...T) bool {
 // If the collection is empty SomeBy returns false.
 // Will iterate through the entire sequence if predicate never returns true.
 func SomeBy[T any](collection iter.Seq[T], predicate func(item T) bool) bool {
-	return IsNotEmpty(Filter(collection, predicate))
+	for item := range collection {
+		if predicate(item) {
+			return true
+		}
+	}
+
+	return false
 }
 
 // None returns true if no element of a subset is contained in a collection or if the subset is empty.
@@ -89,7 +107,13 @@ func None[T comparable](collection iter.Seq[T], subset ...T) bool {
 // NoneBy returns true if the predicate returns true for none of the elements in the collection or if the collection is empty.
 // Will iterate through the entire sequence if predicate never returns true.
 func NoneBy[T any](collection iter.Seq[T], predicate func(item T) bool) bool {
-	return IsEmpty(Filter(collection, predicate))
+	for item := range collection {
+		if predicate(item) {
+			return false
+		}
+	}
+
+	return true
 }
 
 // Intersect returns the intersection between given collections.

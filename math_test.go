@@ -38,7 +38,7 @@ func TestRangeFrom(t *testing.T) {
 	is.Equal([]float64{-2.5, -3.5, -4.5}, result7)
 }
 
-func TestRangeClose(t *testing.T) {
+func TestRangeWithSteps(t *testing.T) {
 	t.Parallel()
 	is := assert.New(t)
 
@@ -48,12 +48,23 @@ func TestRangeClose(t *testing.T) {
 	result4 := RangeWithSteps(3, 2, 1)
 	result5 := RangeWithSteps(1.0, 4.0, 2.0)
 	result6 := RangeWithSteps[float32](-1.0, -4.0, -1.0)
+	result7 := RangeWithSteps(0.0, 0.5, 1.0)
+	result8 := RangeWithSteps(0.0, 0.3, 0.1)
+	result9 := RangeWithSteps(0.0, 5.5, 2.5)
+
+	type f64 float64
+	result10 := RangeWithSteps[f64](0.0, 0.3, 0.1)
+
 	is.Equal([]int{0, 6, 12, 18}, result1)
 	is.Empty(result2)
 	is.Empty(result3)
 	is.Empty(result4)
 	is.Equal([]float64{1.0, 3.0}, result5)
 	is.Equal([]float32{-1.0, -2.0, -3.0}, result6)
+	is.Equal([]float64{0.0}, result7)
+	is.Equal([]float64{0.0, 0.1, 0.2}, result8)
+	is.Equal([]float64{0.0, 2.5, 5.0}, result9)
+	is.Equal([]f64{0.0, 0.1, 0.2}, result10)
 }
 
 func TestClamp(t *testing.T) {

@@ -1,6 +1,8 @@
 package lo
 
 import (
+	"math"
+
 	"github.com/samber/lo/internal/constraints"
 )
 
@@ -32,22 +34,32 @@ func RangeFrom[T constraints.Integer | constraints.Float](start T, elementNum in
 // step set to zero will return an empty slice.
 // Play: https://go.dev/play/p/0r6VimXAi9H
 func RangeWithSteps[T constraints.Integer | constraints.Float](start, end, step T) []T {
-	result := []T{}
 	if start == end || step == 0 {
-		return result
+		return []T{}
 	}
+
+	capacity := func(count, delta T) int {
+		// Use math.Ceil instead of (count-1)/delta+1 because integer division
+		// fails for floats (e.g., 5.5/2.5=2.2 → ceil=3, not 2).
+		return int(math.Ceil(float64(count) / float64(delta)))
+	}
+
 	if start < end {
 		if step < 0 {
-			return result
+			return []T{}
 		}
+
+		result := make([]T, 0, capacity(end-start, step))
 		for i := start; i < end; i += step {
 			result = append(result, i)
 		}
 		return result
 	}
 	if step > 0 {
-		return result
+		return []T{}
 	}
+
+	result := make([]T, 0, capacity(start-end, -step))
 	for i := start; i > end; i += step {
 		result = append(result, i)
 	}

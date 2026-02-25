@@ -41,7 +41,7 @@ func TestRangeFrom(t *testing.T) {
 	is.Equal([]float64{-2.5, -3.5, -4.5}, slices.Collect(result7))
 }
 
-func TestRangeClose(t *testing.T) {
+func TestRangeWithSteps(t *testing.T) {
 	t.Parallel()
 	is := assert.New(t)
 
@@ -51,12 +51,23 @@ func TestRangeClose(t *testing.T) {
 	result4 := RangeWithSteps(3, 2, 1)
 	result5 := RangeWithSteps(1.0, 4.0, 2.0)
 	result6 := RangeWithSteps[float32](-1.0, -4.0, -1.0)
+	result7 := RangeWithSteps(0.0, 0.5, 1.0)
+	result8 := RangeWithSteps(0.0, 0.3, 0.1)
+	result9 := RangeWithSteps(0.0, 5.5, 2.5)
+
+	type f64 float64
+	result10 := RangeWithSteps[f64](0.0, 0.3, 0.1)
+
 	is.Equal([]int{0, 6, 12, 18}, slices.Collect(result1))
 	is.Empty(slices.Collect(result2))
 	is.Empty(slices.Collect(result3))
 	is.Empty(slices.Collect(result4))
 	is.Equal([]float64{1.0, 3.0}, slices.Collect(result5))
 	is.Equal([]float32{-1.0, -2.0, -3.0}, slices.Collect(result6))
+	is.Equal([]float64{0.0}, slices.Collect(result7))
+	is.Equal([]float64{0.0, 0.1, 0.2}, slices.Collect(result8))
+	is.Equal([]float64{0.0, 2.5, 5.0}, slices.Collect(result9))
+	is.Equal([]f64{0.0, 0.1, 0.2}, slices.Collect(result10))
 }
 
 func TestSum(t *testing.T) {

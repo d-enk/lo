@@ -3,7 +3,7 @@ name: Tests (SIMD)
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'exp/simd/**'
   pull_request:

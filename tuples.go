@@ -101,18 +101,13 @@ func Unpack9[A, B, C, D, E, F, G, H, I any](tuple Tuple9[A, B, C, D, E, F, G, H,
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip2[A, B any](a []A, b []B) []Tuple2[A, B] {
-	size := Max([]int{len(a), len(b)})
+	size := uint(Max([]int{len(a), len(b)}))
 
-	result := make([]Tuple2[A, B], 0, size)
+	result := make([]Tuple2[A, B], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-
-		result = append(result, Tuple2[A, B]{
-			A: _a,
-			B: _b,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
 	}
 
 	return result
@@ -123,20 +118,14 @@ func Zip2[A, B any](a []A, b []B) []Tuple2[A, B] {
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip3[A, B, C any](a []A, b []B, c []C) []Tuple3[A, B, C] {
-	size := Max([]int{len(a), len(b), len(c)})
+	size := uint(Max([]int{len(a), len(b), len(c)}))
 
-	result := make([]Tuple3[A, B, C], 0, size)
+	result := make([]Tuple3[A, B, C], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-
-		result = append(result, Tuple3[A, B, C]{
-			A: _a,
-			B: _b,
-			C: _c,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
 	}
 
 	return result
@@ -147,22 +136,15 @@ func Zip3[A, B, C any](a []A, b []B, c []C) []Tuple3[A, B, C] {
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip4[A, B, C, D any](a []A, b []B, c []C, d []D) []Tuple4[A, B, C, D] {
-	size := Max([]int{len(a), len(b), len(c), len(d)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d)}))
 
-	result := make([]Tuple4[A, B, C, D], 0, size)
+	result := make([]Tuple4[A, B, C, D], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-
-		result = append(result, Tuple4[A, B, C, D]{
-			A: _a,
-			B: _b,
-			C: _c,
-			D: _d,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
+		result[index].D = NthOrEmpty(d, index)
 	}
 
 	return result
@@ -173,24 +155,16 @@ func Zip4[A, B, C, D any](a []A, b []B, c []C, d []D) []Tuple4[A, B, C, D] {
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip5[A, B, C, D, E any](a []A, b []B, c []C, d []D, e []E) []Tuple5[A, B, C, D, E] {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e)}))
 
-	result := make([]Tuple5[A, B, C, D, E], 0, size)
+	result := make([]Tuple5[A, B, C, D, E], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-
-		result = append(result, Tuple5[A, B, C, D, E]{
-			A: _a,
-			B: _b,
-			C: _c,
-			D: _d,
-			E: _e,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
+		result[index].D = NthOrEmpty(d, index)
+		result[index].E = NthOrEmpty(e, index)
 	}
 
 	return result
@@ -201,26 +175,17 @@ func Zip5[A, B, C, D, E any](a []A, b []B, c []C, d []D, e []E) []Tuple5[A, B, C
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip6[A, B, C, D, E, F any](a []A, b []B, c []C, d []D, e []E, f []F) []Tuple6[A, B, C, D, E, F] {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f)}))
 
-	result := make([]Tuple6[A, B, C, D, E, F], 0, size)
+	result := make([]Tuple6[A, B, C, D, E, F], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-
-		result = append(result, Tuple6[A, B, C, D, E, F]{
-			A: _a,
-			B: _b,
-			C: _c,
-			D: _d,
-			E: _e,
-			F: _f,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
+		result[index].D = NthOrEmpty(d, index)
+		result[index].E = NthOrEmpty(e, index)
+		result[index].F = NthOrEmpty(f, index)
 	}
 
 	return result
@@ -231,28 +196,18 @@ func Zip6[A, B, C, D, E, F any](a []A, b []B, c []C, d []D, e []E, f []F) []Tupl
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip7[A, B, C, D, E, F, G any](a []A, b []B, c []C, d []D, e []E, f []F, g []G) []Tuple7[A, B, C, D, E, F, G] {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g)}))
 
-	result := make([]Tuple7[A, B, C, D, E, F, G], 0, size)
+	result := make([]Tuple7[A, B, C, D, E, F, G], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-		_g, _ := Nth(g, index)
-
-		result = append(result, Tuple7[A, B, C, D, E, F, G]{
-			A: _a,
-			B: _b,
-			C: _c,
-			D: _d,
-			E: _e,
-			F: _f,
-			G: _g,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
+		result[index].D = NthOrEmpty(d, index)
+		result[index].E = NthOrEmpty(e, index)
+		result[index].F = NthOrEmpty(f, index)
+		result[index].G = NthOrEmpty(g, index)
 	}
 
 	return result
@@ -263,30 +218,19 @@ func Zip7[A, B, C, D, E, F, G any](a []A, b []B, c []C, d []D, e []E, f []F, g [
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip8[A, B, C, D, E, F, G, H any](a []A, b []B, c []C, d []D, e []E, f []F, g []G, h []H) []Tuple8[A, B, C, D, E, F, G, H] {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h)}))
 
-	result := make([]Tuple8[A, B, C, D, E, F, G, H], 0, size)
+	result := make([]Tuple8[A, B, C, D, E, F, G, H], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-		_g, _ := Nth(g, index)
-		_h, _ := Nth(h, index)
-
-		result = append(result, Tuple8[A, B, C, D, E, F, G, H]{
-			A: _a,
-			B: _b,
-			C: _c,
-			D: _d,
-			E: _e,
-			F: _f,
-			G: _g,
-			H: _h,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
+		result[index].D = NthOrEmpty(d, index)
+		result[index].E = NthOrEmpty(e, index)
+		result[index].F = NthOrEmpty(f, index)
+		result[index].G = NthOrEmpty(g, index)
+		result[index].H = NthOrEmpty(h, index)
 	}
 
 	return result
@@ -297,32 +241,20 @@ func Zip8[A, B, C, D, E, F, G, H any](a []A, b []B, c []C, d []D, e []E, f []F, 
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/jujaA6GaJTp
 func Zip9[A, B, C, D, E, F, G, H, I any](a []A, b []B, c []C, d []D, e []E, f []F, g []G, h []H, i []I) []Tuple9[A, B, C, D, E, F, G, H, I] {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h), len(i)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h), len(i)}))
 
-	result := make([]Tuple9[A, B, C, D, E, F, G, H, I], 0, size)
+	result := make([]Tuple9[A, B, C, D, E, F, G, H, I], size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-		_g, _ := Nth(g, index)
-		_h, _ := Nth(h, index)
-		_i, _ := Nth(i, index)
-
-		result = append(result, Tuple9[A, B, C, D, E, F, G, H, I]{
-			A: _a,
-			B: _b,
-			C: _c,
-			D: _d,
-			E: _e,
-			F: _f,
-			G: _g,
-			H: _h,
-			I: _i,
-		})
+	for index := uint(0); index < size; index++ {
+		result[index].A = NthOrEmpty(a, index)
+		result[index].B = NthOrEmpty(b, index)
+		result[index].C = NthOrEmpty(c, index)
+		result[index].D = NthOrEmpty(d, index)
+		result[index].E = NthOrEmpty(e, index)
+		result[index].F = NthOrEmpty(f, index)
+		result[index].G = NthOrEmpty(g, index)
+		result[index].H = NthOrEmpty(h, index)
+		result[index].I = NthOrEmpty(i, index)
 	}
 
 	return result
@@ -333,15 +265,15 @@ func Zip9[A, B, C, D, E, F, G, H, I any](a []A, b []B, c []C, d []D, e []E, f []
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/wlHur6yO8rR
 func ZipBy2[A, B, Out any](a []A, b []B, iteratee func(a A, b B) Out) []Out {
-	size := Max([]int{len(a), len(b)})
+	size := uint(Max([]int{len(a), len(b)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-
-		result = append(result, iteratee(_a, _b))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+		)
 	}
 
 	return result
@@ -352,16 +284,16 @@ func ZipBy2[A, B, Out any](a []A, b []B, iteratee func(a A, b B) Out) []Out {
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/j9maveOnSQX
 func ZipBy3[A, B, C, Out any](a []A, b []B, c []C, iteratee func(a A, b B, c C) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c)})
+	size := uint(Max([]int{len(a), len(b), len(c)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-
-		result = append(result, iteratee(_a, _b, _c))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+		)
 	}
 
 	return result
@@ -372,17 +304,17 @@ func ZipBy3[A, B, C, Out any](a []A, b []B, c []C, iteratee func(a A, b B, c C) 
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/Y1eF2Ke0Ayz
 func ZipBy4[A, B, C, D, Out any](a []A, b []B, c []C, d []D, iteratee func(a A, b B, c C, d D) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c), len(d)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-
-		result = append(result, iteratee(_a, _b, _c, _d))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+			NthOrEmpty(d, index),
+		)
 	}
 
 	return result
@@ -393,18 +325,18 @@ func ZipBy4[A, B, C, D, Out any](a []A, b []B, c []C, d []D, iteratee func(a A, 
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/SLynyalh5Oa
 func ZipBy5[A, B, C, D, E, Out any](a []A, b []B, c []C, d []D, e []E, iteratee func(a A, b B, c C, d D, e E) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-
-		result = append(result, iteratee(_a, _b, _c, _d, _e))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+			NthOrEmpty(d, index),
+			NthOrEmpty(e, index),
+		)
 	}
 
 	return result
@@ -415,19 +347,19 @@ func ZipBy5[A, B, C, D, E, Out any](a []A, b []B, c []C, d []D, e []E, iteratee 
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/IK6KVgw9e-S
 func ZipBy6[A, B, C, D, E, F, Out any](a []A, b []B, c []C, d []D, e []E, f []F, iteratee func(a A, b B, c C, d D, e E, f F) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-
-		result = append(result, iteratee(_a, _b, _c, _d, _e, _f))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+			NthOrEmpty(d, index),
+			NthOrEmpty(e, index),
+			NthOrEmpty(f, index),
+		)
 	}
 
 	return result
@@ -438,20 +370,20 @@ func ZipBy6[A, B, C, D, E, F, Out any](a []A, b []B, c []C, d []D, e []E, f []F,
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/4uW6a2vXh8w
 func ZipBy7[A, B, C, D, E, F, G, Out any](a []A, b []B, c []C, d []D, e []E, f []F, g []G, iteratee func(a A, b B, c C, d D, e E, f F, g G) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-		_g, _ := Nth(g, index)
-
-		result = append(result, iteratee(_a, _b, _c, _d, _e, _f, _g))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+			NthOrEmpty(d, index),
+			NthOrEmpty(e, index),
+			NthOrEmpty(f, index),
+			NthOrEmpty(g, index),
+		)
 	}
 
 	return result
@@ -462,21 +394,21 @@ func ZipBy7[A, B, C, D, E, F, G, Out any](a []A, b []B, c []C, d []D, e []E, f [
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/tk8xW7XzY4v
 func ZipBy8[A, B, C, D, E, F, G, H, Out any](a []A, b []B, c []C, d []D, e []E, f []F, g []G, h []H, iteratee func(a A, b B, c C, d D, e E, f F, g G, h H) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-		_g, _ := Nth(g, index)
-		_h, _ := Nth(h, index)
-
-		result = append(result, iteratee(_a, _b, _c, _d, _e, _f, _g, _h))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+			NthOrEmpty(d, index),
+			NthOrEmpty(e, index),
+			NthOrEmpty(f, index),
+			NthOrEmpty(g, index),
+			NthOrEmpty(h, index),
+		)
 	}
 
 	return result
@@ -487,22 +419,22 @@ func ZipBy8[A, B, C, D, E, F, G, H, Out any](a []A, b []B, c []C, d []D, e []E, 
 // When collections are different sizes, the Tuple attributes are filled with zero value.
 // Play: https://go.dev/play/p/VGqjDmQ9YqX
 func ZipBy9[A, B, C, D, E, F, G, H, I, Out any](a []A, b []B, c []C, d []D, e []E, f []F, g []G, h []H, i []I, iteratee func(a A, b B, c C, d D, e E, f F, g G, h H, i I) Out) []Out {
-	size := Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h), len(i)})
+	size := uint(Max([]int{len(a), len(b), len(c), len(d), len(e), len(f), len(g), len(h), len(i)}))
 
-	result := make([]Out, 0, size)
+	result := make([]Out, size)
 
-	for index := 0; index < size; index++ {
-		_a, _ := Nth(a, index)
-		_b, _ := Nth(b, index)
-		_c, _ := Nth(c, index)
-		_d, _ := Nth(d, index)
-		_e, _ := Nth(e, index)
-		_f, _ := Nth(f, index)
-		_g, _ := Nth(g, index)
-		_h, _ := Nth(h, index)
-		_i, _ := Nth(i, index)
-
-		result = append(result, iteratee(_a, _b, _c, _d, _e, _f, _g, _h, _i))
+	for index := uint(0); index < size; index++ {
+		result[index] = iteratee(
+			NthOrEmpty(a, index),
+			NthOrEmpty(b, index),
+			NthOrEmpty(c, index),
+			NthOrEmpty(d, index),
+			NthOrEmpty(e, index),
+			NthOrEmpty(f, index),
+			NthOrEmpty(g, index),
+			NthOrEmpty(h, index),
+			NthOrEmpty(i, index),
+		)
 	}
 
 	return result

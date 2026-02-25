@@ -3,7 +3,6 @@
 package it
 
 import (
-	"fmt"
 	"iter"
 	"slices"
 	"time"
@@ -447,17 +446,23 @@ func LastOr[T any](collection iter.Seq[T], fallback T) T {
 // Will iterate n times through the sequence.
 // Play: https://go.dev/play/p/1SmFJ5-zr
 func Nth[T any, N constraints.Integer](collection iter.Seq[T], nth N) (T, error) {
+	value, ok := seqNth(collection, nth)
+
+	return value, lo.Validate(ok, "nth: %d out of bounds", nth)
+}
+
+func seqNth[T any, N constraints.Integer](collection iter.Seq[T], nth N) (T, bool) {
 	if nth >= 0 {
 		var i N
 		for item := range collection {
 			if i == nth {
-				return item, nil
+				return item, true
 			}
 			i++
 		}
 	}
 
-	return lo.Empty[T](), fmt.Errorf("nth: %d out of bounds", nth)
+	return lo.Empty[T](), false
 }
 
 // NthOr returns the element at index `nth` of collection.
@@ -465,8 +470,8 @@ func Nth[T any, N constraints.Integer](collection iter.Seq[T], nth N) (T, error)
 // Will iterate n times through the sequence.
 // Play: https://go.dev/play/p/2TnGK6-zs
 func NthOr[T any, N constraints.Integer](collection iter.Seq[T], nth N, fallback T) T {
-	value, err := Nth(collection, nth)
-	if err != nil {
+	value, ok := seqNth(collection, nth)
+	if !ok {
 		return fallback
 	}
 	return value
@@ -477,7 +482,7 @@ func NthOr[T any, N constraints.Integer](collection iter.Seq[T], nth N, fallback
 // Will iterate n times through the sequence.
 // Play: https://go.dev/play/p/3UoHL7-zt
 func NthOrEmpty[T any, N constraints.Integer](collection iter.Seq[T], nth N) T {
-	value, _ := Nth(collection, nth)
+	value, _ := seqNth(collection, nth)
 	return value
 }
 

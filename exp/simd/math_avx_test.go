@@ -10,6 +10,7 @@ import (
 )
 
 func TestSumInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int8
@@ -42,6 +43,7 @@ func TestSumInt8x16(t *testing.T) {
 }
 
 func TestSumInt16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int16
@@ -74,6 +76,7 @@ func TestSumInt16x8(t *testing.T) {
 }
 
 func TestSumInt32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int32
@@ -105,6 +108,7 @@ func TestSumInt32x4(t *testing.T) {
 }
 
 func TestSumInt64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int64
@@ -136,6 +140,7 @@ func TestSumInt64x2(t *testing.T) {
 }
 
 func TestSumUint8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint8
@@ -167,6 +172,7 @@ func TestSumUint8x16(t *testing.T) {
 }
 
 func TestSumUint16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint16
@@ -198,6 +204,7 @@ func TestSumUint16x8(t *testing.T) {
 }
 
 func TestSumUint32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint32
@@ -228,6 +235,7 @@ func TestSumUint32x4(t *testing.T) {
 }
 
 func TestSumUint64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint64
@@ -258,6 +266,7 @@ func TestSumUint64x2(t *testing.T) {
 }
 
 func TestSumFloat32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float32
@@ -291,6 +300,7 @@ func TestSumFloat32x4(t *testing.T) {
 }
 
 func TestSumFloat64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float64
@@ -323,7 +333,8 @@ func TestSumFloat64x2(t *testing.T) {
 }
 
 // Test type aliases work correctly
-func TestSSETypeAlias(t *testing.T) {
+func TestAVXTypeAlias(t *testing.T) {
+	requireAVX(t)
 	input := []myInt8{1, 2, 3, 4, 5}
 	got := SumInt8x16(input)
 	want := lo.Sum(input)
@@ -334,6 +345,7 @@ func TestSSETypeAlias(t *testing.T) {
 }
 
 func TestClampInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int8
@@ -385,6 +397,7 @@ func TestClampInt8x16(t *testing.T) {
 }
 
 func TestClampInt16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int16
@@ -434,6 +447,7 @@ func TestClampInt16x8(t *testing.T) {
 }
 
 func TestClampInt32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int32
@@ -481,56 +495,8 @@ func TestClampInt32x4(t *testing.T) {
 	}
 }
 
-func TestClampInt64x2(t *testing.T) {
-	requireAVX512(t)
-	testCases := []struct {
-		name  string
-		input []int64
-		min   int64
-		max   int64
-	}{
-		{"empty", []int64{}, -100, 100},
-		{"single", []int64{42}, -10, 10},
-		{"small", []int64{1, 2, 3, 4, 5}, 2, 4},
-		{"exactly 2", []int64{-100, 200}, -50, 50},
-		{"large", make([]int64, 1000), -50, 50},
-		{"all below min", []int64{-1000, -2000, -3000}, -500, 100},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			if len(tc.input) > 0 && tc.input[0] == 0 && len(tc.input) > 6 {
-				for i := range tc.input {
-					tc.input[i] = rand.Int64()
-				}
-			}
-
-			got := ClampInt64x2(tc.input, tc.min, tc.max)
-
-			if len(got) != len(tc.input) {
-				t.Errorf("ClampInt64x2() returned length %d, want %d", len(got), len(tc.input))
-			}
-
-			for i, v := range got {
-				if v < tc.min || v > tc.max {
-					t.Errorf("ClampInt64x2()[%d] = %v, outside range [%v, %v]", i, v, tc.min, tc.max)
-				}
-				original := tc.input[i]
-				expected := original
-				if expected < tc.min {
-					expected = tc.min
-				} else if expected > tc.max {
-					expected = tc.max
-				}
-				if v != expected {
-					t.Errorf("ClampInt64x2()[%d] = %v, want %v (original: %v)", i, v, expected, original)
-				}
-			}
-		})
-	}
-}
-
 func TestClampUint8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint8
@@ -581,6 +547,7 @@ func TestClampUint8x16(t *testing.T) {
 }
 
 func TestClampUint16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint16
@@ -630,6 +597,7 @@ func TestClampUint16x8(t *testing.T) {
 }
 
 func TestClampUint32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint32
@@ -677,56 +645,8 @@ func TestClampUint32x4(t *testing.T) {
 	}
 }
 
-func TestClampUint64x2(t *testing.T) {
-	requireAVX512(t)
-	testCases := []struct {
-		name  string
-		input []uint64
-		min   uint64
-		max   uint64
-	}{
-		{"empty", []uint64{}, 100, 1000},
-		{"single", []uint64{42}, 10, 100},
-		{"small", []uint64{1, 2, 3, 4, 5}, 2, 4},
-		{"exactly 2", []uint64{50, 2000}, 100, 1000},
-		{"large", make([]uint64, 1000), 500, 5000},
-		{"all below min", []uint64{1, 2, 3}, 10, 100},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			if len(tc.input) > 0 && tc.input[0] == 0 && len(tc.input) > 6 {
-				for i := range tc.input {
-					tc.input[i] = rand.Uint64()
-				}
-			}
-
-			got := ClampUint64x2(tc.input, tc.min, tc.max)
-
-			if len(got) != len(tc.input) {
-				t.Errorf("ClampUint64x2() returned length %d, want %d", len(got), len(tc.input))
-			}
-
-			for i, v := range got {
-				if v < tc.min || v > tc.max {
-					t.Errorf("ClampUint64x2()[%d] = %v, outside range [%v, %v]", i, v, tc.min, tc.max)
-				}
-				original := tc.input[i]
-				expected := original
-				if expected < tc.min {
-					expected = tc.min
-				} else if expected > tc.max {
-					expected = tc.max
-				}
-				if v != expected {
-					t.Errorf("ClampUint64x2()[%d] = %v, want %v (original: %v)", i, v, expected, original)
-				}
-			}
-		})
-	}
-}
-
 func TestClampFloat32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float32
@@ -778,6 +698,7 @@ func TestClampFloat32x4(t *testing.T) {
 }
 
 func TestClampFloat64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float64
@@ -829,7 +750,8 @@ func TestClampFloat64x2(t *testing.T) {
 }
 
 // Test type aliases work correctly
-func TestSSEClampTypeAlias(t *testing.T) {
+func TestAVXClampTypeAlias(t *testing.T) {
+	requireAVX(t)
 	input := []myInt8{-5, 0, 10, 15, 20}
 	min := myInt8(0)
 	max := myInt8(10)
@@ -853,6 +775,7 @@ func TestSSEClampTypeAlias(t *testing.T) {
 }
 
 func TestMeanInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int8
@@ -884,6 +807,7 @@ func TestMeanInt8x16(t *testing.T) {
 }
 
 func TestMeanInt16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int16
@@ -915,6 +839,7 @@ func TestMeanInt16x8(t *testing.T) {
 }
 
 func TestMeanInt32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int32
@@ -946,6 +871,7 @@ func TestMeanInt32x4(t *testing.T) {
 }
 
 func TestMeanInt64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int64
@@ -977,6 +903,7 @@ func TestMeanInt64x2(t *testing.T) {
 }
 
 func TestMeanUint8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint8
@@ -1008,6 +935,7 @@ func TestMeanUint8x16(t *testing.T) {
 }
 
 func TestMeanUint16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint16
@@ -1039,6 +967,7 @@ func TestMeanUint16x8(t *testing.T) {
 }
 
 func TestMeanUint32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint32
@@ -1069,6 +998,7 @@ func TestMeanUint32x4(t *testing.T) {
 }
 
 func TestMeanUint64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint64
@@ -1099,6 +1029,7 @@ func TestMeanUint64x2(t *testing.T) {
 }
 
 func TestMeanFloat32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float32
@@ -1132,6 +1063,7 @@ func TestMeanFloat32x4(t *testing.T) {
 }
 
 func TestMeanFloat64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float64
@@ -1164,7 +1096,8 @@ func TestMeanFloat64x2(t *testing.T) {
 }
 
 // Test type aliases work correctly
-func TestSSEMeanTypeAlias(t *testing.T) {
+func TestAVXMeanTypeAlias(t *testing.T) {
+	requireAVX(t)
 	input := []myInt8{1, 2, 3, 4, 5}
 	got := MeanInt8x16(input)
 	want := lo.Mean(input)
@@ -1175,6 +1108,7 @@ func TestSSEMeanTypeAlias(t *testing.T) {
 }
 
 func TestMinInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int8
@@ -1206,6 +1140,7 @@ func TestMinInt8x16(t *testing.T) {
 }
 
 func TestMinInt16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int16
@@ -1237,6 +1172,7 @@ func TestMinInt16x8(t *testing.T) {
 }
 
 func TestMinInt32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int32
@@ -1267,39 +1203,8 @@ func TestMinInt32x4(t *testing.T) {
 	}
 }
 
-func TestMinInt64x2(t *testing.T) {
-	requireAVX512(t)
-	testCases := []struct {
-		name  string
-		input []int64
-	}{
-		{"empty", []int64{}},
-		{"single", []int64{42}},
-		{"small", []int64{1, 2, 3, 4, 5}},
-		{"exactly 2", []int64{1, 2}},
-		{"large", make([]int64, 1000)},
-		{"negative", []int64{-1, -2, -3, 4, 5}},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			if len(tc.input) > 0 && tc.input[0] == 0 && len(tc.input) > 6 {
-				for i := range tc.input {
-					tc.input[i] = rand.Int64()
-				}
-			}
-
-			got := MinInt64x2(tc.input)
-			want := lo.Min(tc.input)
-
-			if got != want {
-				t.Errorf("MinInt64x2() = %v, want %v", got, want)
-			}
-		})
-	}
-}
-
 func TestMinUint8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint8
@@ -1331,6 +1236,7 @@ func TestMinUint8x16(t *testing.T) {
 }
 
 func TestMinUint16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint16
@@ -1362,6 +1268,7 @@ func TestMinUint16x8(t *testing.T) {
 }
 
 func TestMinUint32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint32
@@ -1391,38 +1298,8 @@ func TestMinUint32x4(t *testing.T) {
 	}
 }
 
-func TestMinUint64x2(t *testing.T) {
-	requireAVX512(t)
-	testCases := []struct {
-		name  string
-		input []uint64
-	}{
-		{"empty", []uint64{}},
-		{"single", []uint64{42}},
-		{"small", []uint64{1, 2, 3, 4, 5}},
-		{"exactly 2", []uint64{1, 2}},
-		{"large", make([]uint64, 1000)},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			if len(tc.input) > 0 && tc.input[0] == 0 && len(tc.input) > 6 {
-				for i := range tc.input {
-					tc.input[i] = rand.Uint64()
-				}
-			}
-
-			got := MinUint64x2(tc.input)
-			want := lo.Min(tc.input)
-
-			if got != want {
-				t.Errorf("MinUint64x2() = %v, want %v", got, want)
-			}
-		})
-	}
-}
-
 func TestMinFloat32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float32
@@ -1456,6 +1333,7 @@ func TestMinFloat32x4(t *testing.T) {
 }
 
 func TestMinFloat64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float64
@@ -1488,7 +1366,8 @@ func TestMinFloat64x2(t *testing.T) {
 }
 
 // Test type aliases work correctly
-func TestSSEMinTypeAlias(t *testing.T) {
+func TestAVXMinTypeAlias(t *testing.T) {
+	requireAVX(t)
 	input := []myInt8{5, 2, 8, 1, 9}
 	got := MinInt8x16(input)
 	want := myInt8(1)
@@ -1499,6 +1378,7 @@ func TestSSEMinTypeAlias(t *testing.T) {
 }
 
 func TestMaxInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int8
@@ -1530,6 +1410,7 @@ func TestMaxInt8x16(t *testing.T) {
 }
 
 func TestMaxInt16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int16
@@ -1561,6 +1442,7 @@ func TestMaxInt16x8(t *testing.T) {
 }
 
 func TestMaxInt32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []int32
@@ -1591,39 +1473,8 @@ func TestMaxInt32x4(t *testing.T) {
 	}
 }
 
-func TestMaxInt64x2(t *testing.T) {
-	requireAVX512(t)
-	testCases := []struct {
-		name  string
-		input []int64
-	}{
-		{"empty", []int64{}},
-		{"single", []int64{42}},
-		{"small", []int64{1, 2, 3, 4, 5}},
-		{"exactly 2", []int64{1, 2}},
-		{"large", make([]int64, 1000)},
-		{"negative", []int64{-1, -2, -3, 4, 5}},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			if len(tc.input) > 0 && tc.input[0] == 0 && len(tc.input) > 6 {
-				for i := range tc.input {
-					tc.input[i] = rand.Int64()
-				}
-			}
-
-			got := MaxInt64x2(tc.input)
-			want := lo.Max(tc.input)
-
-			if got != want {
-				t.Errorf("MaxInt64x2() = %v, want %v", got, want)
-			}
-		})
-	}
-}
-
 func TestMaxUint8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint8
@@ -1655,6 +1506,7 @@ func TestMaxUint8x16(t *testing.T) {
 }
 
 func TestMaxUint16x8(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint16
@@ -1686,6 +1538,7 @@ func TestMaxUint16x8(t *testing.T) {
 }
 
 func TestMaxUint32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []uint32
@@ -1715,38 +1568,8 @@ func TestMaxUint32x4(t *testing.T) {
 	}
 }
 
-func TestMaxUint64x2(t *testing.T) {
-	requireAVX512(t)
-	testCases := []struct {
-		name  string
-		input []uint64
-	}{
-		{"empty", []uint64{}},
-		{"single", []uint64{42}},
-		{"small", []uint64{1, 2, 3, 4, 5}},
-		{"exactly 2", []uint64{1, 2}},
-		{"large", make([]uint64, 1000)},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			if len(tc.input) > 0 && tc.input[0] == 0 && len(tc.input) > 6 {
-				for i := range tc.input {
-					tc.input[i] = rand.Uint64()
-				}
-			}
-
-			got := MaxUint64x2(tc.input)
-			want := lo.Max(tc.input)
-
-			if got != want {
-				t.Errorf("MaxUint64x2() = %v, want %v", got, want)
-			}
-		})
-	}
-}
-
 func TestMaxFloat32x4(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float32
@@ -1780,6 +1603,7 @@ func TestMaxFloat32x4(t *testing.T) {
 }
 
 func TestMaxFloat64x2(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []float64
@@ -1812,7 +1636,8 @@ func TestMaxFloat64x2(t *testing.T) {
 }
 
 // Test type aliases work correctly
-func TestSSEMaxTypeAlias(t *testing.T) {
+func TestAVXMaxTypeAlias(t *testing.T) {
+	requireAVX(t)
 	input := []myInt8{5, 2, 8, 1, 9}
 	got := MaxInt8x16(input)
 	want := myInt8(9)
@@ -1831,6 +1656,7 @@ type item struct {
 }
 
 func TestSumByInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []item
@@ -1863,6 +1689,7 @@ func TestSumByInt8x16(t *testing.T) {
 }
 
 func TestSumByInt16x8(t *testing.T) {
+	requireAVX(t)
 	type itemInt16 struct {
 		Value int16
 	}
@@ -1898,6 +1725,7 @@ func TestSumByInt16x8(t *testing.T) {
 }
 
 func TestSumByInt32x4(t *testing.T) {
+	requireAVX(t)
 	type itemInt32 struct {
 		Value int32
 	}
@@ -1933,6 +1761,7 @@ func TestSumByInt32x4(t *testing.T) {
 }
 
 func TestSumByInt64x2(t *testing.T) {
+	requireAVX(t)
 	type itemInt64 struct {
 		Value int64
 	}
@@ -1968,6 +1797,7 @@ func TestSumByInt64x2(t *testing.T) {
 }
 
 func TestSumByUint8x16(t *testing.T) {
+	requireAVX(t)
 	type itemUint8 struct {
 		Value uint8
 	}
@@ -2003,6 +1833,7 @@ func TestSumByUint8x16(t *testing.T) {
 }
 
 func TestSumByUint16x8(t *testing.T) {
+	requireAVX(t)
 	type itemUint16 struct {
 		Value uint16
 	}
@@ -2038,6 +1869,7 @@ func TestSumByUint16x8(t *testing.T) {
 }
 
 func TestSumByUint32x4(t *testing.T) {
+	requireAVX(t)
 	type itemUint32 struct {
 		Value uint32
 	}
@@ -2072,6 +1904,7 @@ func TestSumByUint32x4(t *testing.T) {
 }
 
 func TestSumByUint64x2(t *testing.T) {
+	requireAVX(t)
 	type itemUint64 struct {
 		Value uint64
 	}
@@ -2106,6 +1939,7 @@ func TestSumByUint64x2(t *testing.T) {
 }
 
 func TestSumByFloat32x4(t *testing.T) {
+	requireAVX(t)
 	type itemFloat32 struct {
 		Value float32
 	}
@@ -2143,6 +1977,7 @@ func TestSumByFloat32x4(t *testing.T) {
 }
 
 func TestSumByFloat64x2(t *testing.T) {
+	requireAVX(t)
 	type itemFloat64 struct {
 		Value float64
 	}
@@ -2179,7 +2014,8 @@ func TestSumByFloat64x2(t *testing.T) {
 }
 
 // Test type alias works correctly for SumBy
-func TestSSESumByTypeAlias(t *testing.T) {
+func TestAVXSumByTypeAlias(t *testing.T) {
+	requireAVX(t)
 	type myItem struct {
 		Value myInt8
 	}
@@ -2196,6 +2032,7 @@ func TestSSESumByTypeAlias(t *testing.T) {
 // MeanBy tests
 
 func TestMeanByInt8x16(t *testing.T) {
+	requireAVX(t)
 	testCases := []struct {
 		name  string
 		input []item
@@ -2227,6 +2064,7 @@ func TestMeanByInt8x16(t *testing.T) {
 }
 
 func TestMeanByInt16x8(t *testing.T) {
+	requireAVX(t)
 	type itemInt16 struct {
 		Value int16
 	}
@@ -2262,6 +2100,7 @@ func TestMeanByInt16x8(t *testing.T) {
 }
 
 func TestMeanByInt32x4(t *testing.T) {
+	requireAVX(t)
 	type itemInt32 struct {
 		Value int32
 	}
@@ -2297,6 +2136,7 @@ func TestMeanByInt32x4(t *testing.T) {
 }
 
 func TestMeanByInt64x2(t *testing.T) {
+	requireAVX(t)
 	type itemInt64 struct {
 		Value int64
 	}
@@ -2332,6 +2172,7 @@ func TestMeanByInt64x2(t *testing.T) {
 }
 
 func TestMeanByUint8x16(t *testing.T) {
+	requireAVX(t)
 	type itemUint8 struct {
 		Value uint8
 	}
@@ -2367,6 +2208,7 @@ func TestMeanByUint8x16(t *testing.T) {
 }
 
 func TestMeanByUint16x8(t *testing.T) {
+	requireAVX(t)
 	type itemUint16 struct {
 		Value uint16
 	}
@@ -2402,6 +2244,7 @@ func TestMeanByUint16x8(t *testing.T) {
 }
 
 func TestMeanByUint32x4(t *testing.T) {
+	requireAVX(t)
 	type itemUint32 struct {
 		Value uint32
 	}
@@ -2436,6 +2279,7 @@ func TestMeanByUint32x4(t *testing.T) {
 }
 
 func TestMeanByUint64x2(t *testing.T) {
+	requireAVX(t)
 	type itemUint64 struct {
 		Value uint64
 	}
@@ -2470,6 +2314,7 @@ func TestMeanByUint64x2(t *testing.T) {
 }
 
 func TestMeanByFloat32x4(t *testing.T) {
+	requireAVX(t)
 	type itemFloat32 struct {
 		Value float32
 	}
@@ -2507,6 +2352,7 @@ func TestMeanByFloat32x4(t *testing.T) {
 }
 
 func TestMeanByFloat64x2(t *testing.T) {
+	requireAVX(t)
 	type itemFloat64 struct {
 		Value float64
 	}
@@ -2543,7 +2389,8 @@ func TestMeanByFloat64x2(t *testing.T) {
 }
 
 // Test type alias works correctly for MeanBy
-func TestSSEMeanByTypeAlias(t *testing.T) {
+func TestAVXMeanByTypeAlias(t *testing.T) {
+	requireAVX(t)
 	type myItem struct {
 		Value myInt8
 	}

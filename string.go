@@ -7,10 +7,10 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/samber/lo/internal/xrand"
-
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+
+	"github.com/samber/lo/internal/xrand"
 )
 
 var (
@@ -100,28 +100,94 @@ func nearestPowerOfTwo(capacity int) int {
 	return n + 1
 }
 
-// Substring return part of a string.
+// Substring extracts a substring from a string with Unicode character (rune) awareness.
+// offset - starting position of the substring (can be positive, negative, or zero)
+// length - number of characters to extract
+// With positive offset, counting starts from the beginning of the string
+// With negative offset, counting starts from the end of the string
 // Play: https://go.dev/play/p/TQlxQi82Lu1
 func Substring[T ~string](str T, offset int, length uint) T {
-	rs := []rune(str)
-	size := len(rs)
+	str = substring(str, offset, length)
 
-	if offset < 0 {
-		offset = size + offset
-		if offset < 0 {
-			offset = 0
+	// Validate UTF-8 and fix invalid sequences
+	if !utf8.ValidString(string(str)) {
+		// Convert to []rune to replicate behavior with duplicated �
+		str = T([]rune(str))
+	}
+
+	// Remove null bytes from result
+	return T(strings.ReplaceAll(string(str), "\x00", ""))
+}
+
+func substring[T ~string](str T, offset int, length uint) T {
+	switch {
+	// Empty length or offset beyond string bounds - return empty string
+	case length == 0, offset >= len(str):
+		return ""
+
+	// Positive offset - count from the beginning
+	case offset > 0:
+		// Skip offset runes from the start
+		for i, r := range str {
+			if offset--; offset == 0 {
+				str = str[i+utf8.RuneLen(r):]
+				break
+			}
 		}
-	}
 
-	if offset >= size {
-		return Empty[T]()
-	}
+		// If couldn't skip enough runes - string is shorter than offset
+		if offset != 0 {
+			return ""
+		}
 
-	if length > uint(size)-uint(offset) {
-		length = uint(size - offset)
-	}
+		// If remaining string is shorter than or equal to length - return it entirely
+		if uint(len(str)) <= length {
+			return str
+		}
 
-	return T(strings.ReplaceAll(string(rs[offset:offset+int(length)]), "\x00", ""))
+		// Otherwise proceed to trimming by length
+		fallthrough
+
+	// Zero offset or offset less than minus string length - start from beginning
+	case offset < -len(str), offset == 0:
+		// Count length runes from the start
+		for i := range str {
+			if length == 0 {
+				return str[:i]
+			}
+			length--
+		}
+
+		return str
+
+	// Negative offset - count from the end of string
+	default: // -len(str) < offset < 0
+		// Helper function to move backward through runes
+		backwardPos := func(end int, count uint) (start int) {
+			for {
+				_, i := utf8.DecodeLastRuneInString(string(str[:end]))
+				end -= i
+
+				if count--; count == 0 || end == 0 {
+					return end
+				}
+			}
+		}
+
+		offset := uint(-offset)
+
+		// If offset is less than or equal to length - take from position to end
+		if offset <= length {
+			start := backwardPos(len(str), offset)
+			return str[start:]
+		}
+
+		// Otherwise calculate start and end positions
+		end := backwardPos(len(str), offset-length)
+		start := backwardPos(end, length)
+
+		return str[start:end]
+	}
 }
 
 // ChunkString returns a slice of strings split into groups of length size. If the string can't be split evenly,

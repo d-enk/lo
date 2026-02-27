@@ -1,8 +1,11 @@
 package lo
 
 import (
+	"fmt"
 	"math"
+	"strings"
 	"testing"
+	"unicode/utf8"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -62,6 +65,7 @@ func TestSubstring(t *testing.T) {
 	t.Parallel()
 	is := assert.New(t)
 
+	str0 := Substring("hello", 5, 10)
 	str1 := Substring("hello", 0, 0)
 	str2 := Substring("hello", 10, 2)
 	str3 := Substring("hello", -10, 2)
@@ -76,8 +80,25 @@ func TestSubstring(t *testing.T) {
 	str12 := Substring("hello", -4, math.MaxUint)
 	str13 := Substring("🏠🐶🐱", 0, 2)
 	str14 := Substring("你好，世界", 0, 3)
-	str15 := Substring("hello", 5, 1)
+	str15 := Substring("🏠🐶🐱", 1, 2)
+	str16 := Substring("🏠🐶🐱", -2, 2)
+	str17 := Substring("🏠🐶🐱", 3, 3)
+	str18 := Substring("🏠🐶🐱", 4, 3)
+	str19 := Substring("hello", 5, 1)
+	str20 := Substring("hello", -5, 5)
+	str21 := Substring("hello", -5, 4)
+	str22 := Substring("hello", -5, math.MaxUint)
+	str23 := Substring("\x00\x00\x00", 0, math.MaxUint)
+	str24 := Substring(string(utf8.RuneError), 0, math.MaxUint)
+	str25 := Substring("привет"[1:], 0, 6)
+	str26 := Substring("привет"[:2*5+1], 0, 6)
+	str27 := Substring("привет"[:2*5+1], -2, math.MaxUint)
+	str28 := Substring("🏠🐶🐱"[1:], 0, math.MaxUint)
+	str29 := Substring("🏠🐶🐱"[1:], 0, 2)
+	str30 := Substring("привет", 6, math.MaxUint)
+	str31 := Substring("привет", 6+1, math.MaxUint)
 
+	is.Empty(str0)
 	is.Empty(str1)
 	is.Empty(str2)
 	is.Equal("he", str3)
@@ -92,7 +113,45 @@ func TestSubstring(t *testing.T) {
 	is.Equal("ello", str12)
 	is.Equal("🏠🐶", str13)
 	is.Equal("你好，", str14)
-	is.Empty(str15)
+	is.Equal("🐶🐱", str15)
+	is.Equal("🐶🐱", str16)
+	is.Empty(str17)
+	is.Empty(str18)
+	is.Empty(str19)
+	is.Equal("hello", str20)
+	is.Equal("hell", str21)
+	is.Equal("hello", str22)
+	is.Empty(str23)
+	is.Equal("�", str24)
+	is.Equal("�ривет", str25)
+	is.Equal("приве�", str26)
+	is.Equal("е�", str27)
+	is.Equal("���🐶🐱", str28)
+	is.Equal("��", str29)
+	is.Empty(str30)
+	is.Empty(str31)
+}
+
+func BenchmarkSubstring(b *testing.B) {
+	str := strings.Repeat("1", 100)
+
+	for _, test := range []struct {
+		offset int
+		length uint
+	}{
+		{10, 10},
+		{50, 50},
+		{50, 45},
+		{-50, 50},
+		{-10, 10},
+	} {
+		fmt.Println(test)
+		b.Run(fmt.Sprint(test), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				_ = Substring(str, test.offset, test.length)
+			}
+		})
+	}
 }
 
 func TestRuneLength(t *testing.T) {

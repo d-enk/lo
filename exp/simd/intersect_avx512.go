@@ -9,9 +9,6 @@ import (
 // ContainsInt8x16 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsInt8x16[T ~int8](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastInt8x16(int8(target))
@@ -43,9 +40,6 @@ func ContainsInt8x16[T ~int8](collection []T, target T) bool {
 // ContainsInt16x8 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsInt16x8[T ~int16](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastInt16x8(int16(target))
@@ -75,9 +69,6 @@ func ContainsInt16x8[T ~int16](collection []T, target T) bool {
 // ContainsInt32x4 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsInt32x4[T ~int32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes4
 	targetVec := archsimd.BroadcastInt32x4(int32(target))
@@ -107,9 +98,6 @@ func ContainsInt32x4[T ~int32](collection []T, target T) bool {
 // ContainsInt64x2 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsInt64x2[T ~int64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes2
 	targetVec := archsimd.BroadcastInt64x2(int64(target))
@@ -139,9 +127,6 @@ func ContainsInt64x2[T ~int64](collection []T, target T) bool {
 // ContainsUint8x16 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsUint8x16[T ~uint8](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastUint8x16(uint8(target))
@@ -171,9 +156,6 @@ func ContainsUint8x16[T ~uint8](collection []T, target T) bool {
 // ContainsUint16x8 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsUint16x8[T ~uint16](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastUint16x8(uint16(target))
@@ -203,9 +185,6 @@ func ContainsUint16x8[T ~uint16](collection []T, target T) bool {
 // ContainsUint32x4 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsUint32x4[T ~uint32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes4
 	targetVec := archsimd.BroadcastUint32x4(uint32(target))
@@ -235,9 +214,6 @@ func ContainsUint32x4[T ~uint32](collection []T, target T) bool {
 // ContainsUint64x2 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsUint64x2[T ~uint64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes2
 	targetVec := archsimd.BroadcastUint64x2(uint64(target))
@@ -267,9 +243,6 @@ func ContainsUint64x2[T ~uint64](collection []T, target T) bool {
 // ContainsFloat32x4 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsFloat32x4[T ~float32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes4
 	targetVec := archsimd.BroadcastFloat32x4(float32(target))
@@ -299,9 +272,6 @@ func ContainsFloat32x4[T ~float32](collection []T, target T) bool {
 // ContainsFloat64x2 checks if collection contains target using AVX SIMD and AVX-512 SIMD
 func ContainsFloat64x2[T ~float64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes2
 	targetVec := archsimd.BroadcastFloat64x2(float64(target))
@@ -331,9 +301,6 @@ func ContainsFloat64x2[T ~float64](collection []T, target T) bool {
 // ContainsInt8x32 checks if collection contains target using AVX2 SIMD
 func ContainsInt8x32[T ~int8](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes32
 	targetVec := archsimd.BroadcastInt8x32(int8(target))
@@ -363,9 +330,6 @@ func ContainsInt8x32[T ~int8](collection []T, target T) bool {
 // ContainsInt16x16 checks if collection contains target using AVX2 SIMD
 func ContainsInt16x16[T ~int16](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastInt16x16(int16(target))
@@ -395,9 +359,6 @@ func ContainsInt16x16[T ~int16](collection []T, target T) bool {
 // ContainsInt32x8 checks if collection contains target using AVX2 SIMD
 func ContainsInt32x8[T ~int32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastInt32x8(int32(target))
@@ -427,9 +388,6 @@ func ContainsInt32x8[T ~int32](collection []T, target T) bool {
 // ContainsInt64x4 checks if collection contains target using AVX2 SIMD
 func ContainsInt64x4[T ~int64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes4
 	targetVec := archsimd.BroadcastInt64x4(int64(target))
@@ -459,9 +417,6 @@ func ContainsInt64x4[T ~int64](collection []T, target T) bool {
 // ContainsUint8x32 checks if collection contains target using AVX2 SIMD
 func ContainsUint8x32[T ~uint8](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes32
 	targetVec := archsimd.BroadcastUint8x32(uint8(target))
@@ -491,9 +446,6 @@ func ContainsUint8x32[T ~uint8](collection []T, target T) bool {
 // ContainsUint16x16 checks if collection contains target using AVX2 SIMD
 func ContainsUint16x16[T ~uint16](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastUint16x16(uint16(target))
@@ -523,9 +475,6 @@ func ContainsUint16x16[T ~uint16](collection []T, target T) bool {
 // ContainsUint32x8 checks if collection contains target using AVX2 SIMD
 func ContainsUint32x8[T ~uint32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastUint32x8(uint32(target))
@@ -555,9 +504,6 @@ func ContainsUint32x8[T ~uint32](collection []T, target T) bool {
 // ContainsUint64x4 checks if collection contains target using AVX2 SIMD
 func ContainsUint64x4[T ~uint64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes4
 	targetVec := archsimd.BroadcastUint64x4(uint64(target))
@@ -587,9 +533,6 @@ func ContainsUint64x4[T ~uint64](collection []T, target T) bool {
 // ContainsFloat32x8 checks if collection contains target using AVX2 SIMD
 func ContainsFloat32x8[T ~float32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastFloat32x8(float32(target))
@@ -619,9 +562,6 @@ func ContainsFloat32x8[T ~float32](collection []T, target T) bool {
 // ContainsFloat64x4 checks if collection contains target using AVX2 SIMD
 func ContainsFloat64x4[T ~float64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes4
 	targetVec := archsimd.BroadcastFloat64x4(float64(target))
@@ -651,9 +591,6 @@ func ContainsFloat64x4[T ~float64](collection []T, target T) bool {
 // ContainsInt8x64 checks if collection contains target using AVX-512 SIMD
 func ContainsInt8x64[T ~int8](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes64
 	targetVec := archsimd.BroadcastInt8x64(int8(target))
@@ -683,9 +620,6 @@ func ContainsInt8x64[T ~int8](collection []T, target T) bool {
 // ContainsInt16x32 checks if collection contains target using AVX-512 SIMD
 func ContainsInt16x32[T ~int16](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes32
 	targetVec := archsimd.BroadcastInt16x32(int16(target))
@@ -715,9 +649,6 @@ func ContainsInt16x32[T ~int16](collection []T, target T) bool {
 // ContainsInt32x16 checks if collection contains target using AVX-512 SIMD
 func ContainsInt32x16[T ~int32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastInt32x16(int32(target))
@@ -747,9 +678,6 @@ func ContainsInt32x16[T ~int32](collection []T, target T) bool {
 // ContainsInt64x8 checks if collection contains target using AVX-512 SIMD
 func ContainsInt64x8[T ~int64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastInt64x8(int64(target))
@@ -779,9 +707,6 @@ func ContainsInt64x8[T ~int64](collection []T, target T) bool {
 // ContainsUint8x64 checks if collection contains target using AVX-512 SIMD
 func ContainsUint8x64[T ~uint8](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes64
 	targetVec := archsimd.BroadcastUint8x64(uint8(target))
@@ -811,9 +736,6 @@ func ContainsUint8x64[T ~uint8](collection []T, target T) bool {
 // ContainsUint16x32 checks if collection contains target using AVX-512 SIMD
 func ContainsUint16x32[T ~uint16](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes32
 	targetVec := archsimd.BroadcastUint16x32(uint16(target))
@@ -843,9 +765,6 @@ func ContainsUint16x32[T ~uint16](collection []T, target T) bool {
 // ContainsUint32x16 checks if collection contains target using AVX-512 SIMD
 func ContainsUint32x16[T ~uint32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastUint32x16(uint32(target))
@@ -875,9 +794,6 @@ func ContainsUint32x16[T ~uint32](collection []T, target T) bool {
 // ContainsUint64x8 checks if collection contains target using AVX-512 SIMD
 func ContainsUint64x8[T ~uint64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastUint64x8(uint64(target))
@@ -907,9 +823,6 @@ func ContainsUint64x8[T ~uint64](collection []T, target T) bool {
 // ContainsFloat32x16 checks if collection contains target using AVX-512 SIMD
 func ContainsFloat32x16[T ~float32](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes16
 	targetVec := archsimd.BroadcastFloat32x16(float32(target))
@@ -939,9 +852,6 @@ func ContainsFloat32x16[T ~float32](collection []T, target T) bool {
 // ContainsFloat64x8 checks if collection contains target using AVX-512 SIMD
 func ContainsFloat64x8[T ~float64](collection []T, target T) bool {
 	length := uint(len(collection))
-	if length == 0 {
-		return false
-	}
 
 	const lanes = simdLanes8
 	targetVec := archsimd.BroadcastFloat64x8(float64(target))

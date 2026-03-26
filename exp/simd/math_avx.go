@@ -17,9 +17,7 @@ import (
 // For collections that may overflow, consider using a wider type or handle overflow detection externally.
 func SumInt8x16[T ~int8](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes16
 
 	base := unsafeSliceInt8(collection, length)
@@ -51,9 +49,7 @@ func SumInt8x16[T ~int8](collection []T) T {
 // For collections that may overflow, consider using a wider type or handle overflow detection externally.
 func SumInt16x8[T ~int16](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes8
 
 	base := unsafeSliceInt16(collection, length)
@@ -85,9 +81,7 @@ func SumInt16x8[T ~int16](collection []T) T {
 // For collections that may overflow, consider using SumInt64x2 or handle overflow detection externally.
 func SumInt32x4[T ~int32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes4
 
 	base := unsafeSliceInt32(collection, length)
@@ -119,9 +113,7 @@ func SumInt32x4[T ~int32](collection []T) T {
 // For collections that may overflow, handle overflow detection externally (e.g., using big.Int).
 func SumInt64x2[T ~int64](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes2
 
 	base := unsafeSliceInt64(collection, length)
@@ -153,9 +145,7 @@ func SumInt64x2[T ~int64](collection []T) T {
 // For collections that may overflow, consider using a wider type or handle overflow detection externally.
 func SumUint8x16[T ~uint8](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes16
 
 	base := unsafeSliceUint8(collection, length)
@@ -187,9 +177,7 @@ func SumUint8x16[T ~uint8](collection []T) T {
 // For collections that may overflow, consider using a wider type or handle overflow detection externally.
 func SumUint16x8[T ~uint16](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes8
 
 	base := unsafeSliceUint16(collection, length)
@@ -221,9 +209,7 @@ func SumUint16x8[T ~uint16](collection []T) T {
 // For collections that may overflow, consider using SumUint64x2 or handle overflow detection externally.
 func SumUint32x4[T ~uint32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes4
 
 	base := unsafeSliceUint32(collection, length)
@@ -255,9 +241,7 @@ func SumUint32x4[T ~uint32](collection []T) T {
 // For collections that may overflow, handle overflow detection externally (e.g., using big.Int).
 func SumUint64x2[T ~uint64](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes2
 
 	base := unsafeSliceUint64(collection, length)
@@ -288,9 +272,7 @@ func SumUint64x2[T ~uint64](collection []T) T {
 // For collections requiring high precision or large sums, consider using SumFloat64x2.
 func SumFloat32x4[T ~float32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes4
 
 	base := unsafeSliceFloat32(collection, length)
@@ -321,9 +303,7 @@ func SumFloat32x4[T ~float32](collection []T) T {
 // For collections that may overflow, handle overflow detection externally (e.g., using big.Float).
 func SumFloat64x2[T ~float64](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
+
 	const lanes = simdLanes2
 
 	base := unsafeSliceFloat64(collection, length)
@@ -436,7 +416,6 @@ func MeanFloat32x4[T ~float32](collection []T) T {
 		return 0
 	}
 	sum := SumFloat32x4(collection)
-
 	return sum / T(length)
 }
 
@@ -453,9 +432,6 @@ func MeanFloat64x2[T ~float64](collection []T) T {
 // ClampInt8x16 clamps each element in collection between min and max values using AVX SIMD
 func ClampInt8x16[T ~int8, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes16
@@ -491,9 +467,6 @@ func ClampInt8x16[T ~int8, Slice ~[]T](collection Slice, min, max T) Slice {
 // ClampInt16x8 clamps each element in collection between min and max values using AVX SIMD
 func ClampInt16x8[T ~int16, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes8
@@ -529,9 +502,6 @@ func ClampInt16x8[T ~int16, Slice ~[]T](collection Slice, min, max T) Slice {
 // ClampInt32x4 clamps each element in collection between min and max values using AVX SIMD
 func ClampInt32x4[T ~int32, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes4
@@ -567,9 +537,6 @@ func ClampInt32x4[T ~int32, Slice ~[]T](collection Slice, min, max T) Slice {
 // ClampUint8x16 clamps each element in collection between min and max values using AVX SIMD
 func ClampUint8x16[T ~uint8, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes16
@@ -605,9 +572,6 @@ func ClampUint8x16[T ~uint8, Slice ~[]T](collection Slice, min, max T) Slice {
 // ClampUint16x8 clamps each element in collection between min and max values using AVX SIMD
 func ClampUint16x8[T ~uint16, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes8
@@ -643,9 +607,6 @@ func ClampUint16x8[T ~uint16, Slice ~[]T](collection Slice, min, max T) Slice {
 // ClampUint32x4 clamps each element in collection between min and max values using AVX SIMD
 func ClampUint32x4[T ~uint32, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes4
@@ -681,9 +642,6 @@ func ClampUint32x4[T ~uint32, Slice ~[]T](collection Slice, min, max T) Slice {
 // ClampFloat32x4 clamps each element in collection between min and max values using AVX SIMD
 func ClampFloat32x4[T ~float32, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes4
@@ -719,9 +677,6 @@ func ClampFloat32x4[T ~float32, Slice ~[]T](collection Slice, min, max T) Slice 
 // ClampFloat64x2 clamps each element in collection between min and max values using AVX SIMD
 func ClampFloat64x2[T ~float64, Slice ~[]T](collection Slice, min, max T) Slice {
 	length := uint(len(collection))
-	if length == 0 {
-		return collection
-	}
 
 	result := make(Slice, length)
 	const lanes = simdLanes2
@@ -757,9 +712,6 @@ func ClampFloat64x2[T ~float64, Slice ~[]T](collection Slice, min, max T) Slice 
 // MinInt8x16 finds the minimum value in a collection of int8 using AVX SIMD
 func MinInt8x16[T ~int8](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes16
 	base := unsafeSliceInt8(collection, length)
@@ -804,9 +756,6 @@ func MinInt8x16[T ~int8](collection []T) T {
 // MinInt16x8 finds the minimum value in a collection of int16 using AVX SIMD
 func MinInt16x8[T ~int16](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes8
 	base := unsafeSliceInt16(collection, length)
@@ -848,9 +797,6 @@ func MinInt16x8[T ~int16](collection []T) T {
 // MinInt32x4 finds the minimum value in a collection of int32 using AVX SIMD
 func MinInt32x4[T ~int32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes4
 	base := unsafeSliceInt32(collection, length)
@@ -892,9 +838,6 @@ func MinInt32x4[T ~int32](collection []T) T {
 // MinUint8x16 finds the minimum value in a collection of uint8 using AVX SIMD
 func MinUint8x16[T ~uint8](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes16
 	base := unsafeSliceUint8(collection, length)
@@ -939,9 +882,6 @@ func MinUint8x16[T ~uint8](collection []T) T {
 // MinUint16x8 finds the minimum value in a collection of uint16 using AVX SIMD
 func MinUint16x8[T ~uint16](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes8
 	base := unsafeSliceUint16(collection, length)
@@ -983,9 +923,6 @@ func MinUint16x8[T ~uint16](collection []T) T {
 // MinUint32x4 finds the minimum value in a collection of uint32 using AVX SIMD
 func MinUint32x4[T ~uint32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes4
 	base := unsafeSliceUint32(collection, length)
@@ -1027,9 +964,6 @@ func MinUint32x4[T ~uint32](collection []T) T {
 // MinFloat32x4 finds the minimum value in a collection of float32 using AVX SIMD
 func MinFloat32x4[T ~float32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes4
 	base := unsafeSliceFloat32(collection, length)
@@ -1071,9 +1005,6 @@ func MinFloat32x4[T ~float32](collection []T) T {
 // MinFloat64x2 finds the minimum value in a collection of float64 using AVX SIMD
 func MinFloat64x2[T ~float64](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes2
 	base := unsafeSliceFloat64(collection, length)
@@ -1115,9 +1046,6 @@ func MinFloat64x2[T ~float64](collection []T) T {
 // MaxInt8x16 finds the maximum value in a collection of int8 using AVX SIMD
 func MaxInt8x16[T ~int8](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes16
 	base := unsafeSliceInt8(collection, length)
@@ -1162,9 +1090,6 @@ func MaxInt8x16[T ~int8](collection []T) T {
 // MaxInt16x8 finds the maximum value in a collection of int16 using AVX SIMD
 func MaxInt16x8[T ~int16](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes8
 	base := unsafeSliceInt16(collection, length)
@@ -1206,9 +1131,6 @@ func MaxInt16x8[T ~int16](collection []T) T {
 // MaxInt32x4 finds the maximum value in a collection of int32 using AVX SIMD
 func MaxInt32x4[T ~int32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes4
 	base := unsafeSliceInt32(collection, length)
@@ -1250,9 +1172,6 @@ func MaxInt32x4[T ~int32](collection []T) T {
 // MaxUint8x16 finds the maximum value in a collection of uint8 using AVX SIMD
 func MaxUint8x16[T ~uint8](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes16
 	base := unsafeSliceUint8(collection, length)
@@ -1297,9 +1216,6 @@ func MaxUint8x16[T ~uint8](collection []T) T {
 // MaxUint16x8 finds the maximum value in a collection of uint16 using AVX SIMD
 func MaxUint16x8[T ~uint16](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes8
 	base := unsafeSliceUint16(collection, length)
@@ -1341,9 +1257,6 @@ func MaxUint16x8[T ~uint16](collection []T) T {
 // MaxUint32x4 finds the maximum value in a collection of uint32 using AVX SIMD
 func MaxUint32x4[T ~uint32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes4
 	base := unsafeSliceUint32(collection, length)
@@ -1385,9 +1298,6 @@ func MaxUint32x4[T ~uint32](collection []T) T {
 // MaxFloat32x4 finds the maximum value in a collection of float32 using AVX SIMD
 func MaxFloat32x4[T ~float32](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes4
 	base := unsafeSliceFloat32(collection, length)
@@ -1429,9 +1339,6 @@ func MaxFloat32x4[T ~float32](collection []T) T {
 // MaxFloat64x2 finds the maximum value in a collection of float64 using AVX SIMD
 func MaxFloat64x2[T ~float64](collection []T) T {
 	length := uint(len(collection))
-	if length == 0 {
-		return 0
-	}
 
 	const lanes = simdLanes2
 	base := unsafeSliceFloat64(collection, length)
